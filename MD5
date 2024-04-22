@@ -1,13 +1,13 @@
-710df204b2b78b5f7fbc11b71e975447 *DESCRIPTION
-43476396ae78fec9a54a3cb87501ed48 *NAMESPACE
-0372cea5d53ee53045bb79edd6c3eea5 *NEWS.md
-d8e2af7df075f79ebbd1b1a62aa7e880 *R/geometries_data.R
+0ae9e45eec1edd547584fc340a07eccb *DESCRIPTION
+7553887b8e9b6cb509c3d489c5084958 *NAMESPACE
+bde11a19536fded0ead92124cf80fc34 *NEWS.md
+b8f50d16459b3581725c353dfbc4c364 *R/geometries_data.R
 4ad7a9373c94408e2dfcf6141b371587 *R/globals.R
 6d278c77cd320a36926d5072398f01b7 *R/testdata1.R
 e5fc870ab22ea68b80d023f4e681cbc2 *R/testdata1b.R
 8c117797e868c753c69399c83dc89845 *R/testdata1c.R
-43049579511465d6b854375d2e5037c8 *R/worldplot.R
-0d645140b10983bb59df0086e276982b *R/worldplotCat.R
+4316093baad6685c0ff4576023d6611b *R/worldplot.R
+1fdb875865a9001c9ab045039287d9e1 *R/worldplotCat.R
 28e5810ce7c03b1475886bc2d29cd7bb *README.md
 cefe2f4f6243b80e71654542d559df95 *build/vignette.rds
 08f4149f2530f0d0ef3dc006a6b0b692 *data/testdata1.RData
@@ -21,7 +21,7 @@ ecf6704e651e249dbcfb1c2400812423 *inst/doc/WorldMapR_Vignette.html
 47e766c473a1a7faf0364387ccb25153 *man/testdata1b.Rd
 ae58395f77c37ef095c7a981cd092767 *man/testdata1c.Rd
 6631ea7be6bc2c30867b4b0c30e9a048 *man/worldplot.Rd
-418f2108260faa3b716a2bbc59844d96 *man/worldplotCat.Rd
+e1d4c7cf3eb9191c51dfb7358c8b505e *man/worldplotCat.Rd
 bbf8a0e4e21f0235816a3ec9ead378fd *tests/testthat.R
 179ee19050fd69c99a16a5d44efa12dc *tests/testthat/test1.R
 92dc8b5d92a017a13c589da237e993be *tests/testthat/test2.R
@@ -30,6 +30,6 @@ fdbfeb4a85fb52f94aae0dbb5cb5e101 *tests/testthat/test4.R
 5b5900cb1c8cf21adbb5048883d89eee *tests/testthat/test5.R
 da9342a10a354f7e54cc7de22c7be43a *tests/testthat/test6.R
 c7a21570d0776ea70ba2f0424653f1b0 *tests/testthat/testCat1.R
-b2f2a5023158392cbd52277109f5a537 *tests/testthat/testCat2.R
+c0a264c4d3258eed93fc5d0b575b69fd *tests/testthat/testCat2.R
 94121e662c1821729190b8c9989b7b61 *tests/testthat/test_geometry_data.R
 4eea6fbdeb68e2c00253228ca4b2608d *vignettes/WorldMapR_Vignette.Rmd
