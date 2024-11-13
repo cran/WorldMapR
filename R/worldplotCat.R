@@ -14,8 +14,8 @@
 #' @importFrom countrycode countrycode
 #' @importFrom dplyr "%>%" left_join select select filter mutate relocate
 #' @importFrom ggplot2 ggplot geom_sf theme labs scale_fill_viridis_d coord_sf xlab ylab ggtitle
-#'                     aes unit element_text element_blank element_rect geom_text ggsave scale_fill_manual
-#' @importFrom sf st_centroid st_coordinates st_union
+#'                     aes unit element_text element_blank element_rect geom_text scale_fill_manual
+#' @importFrom sf st_centroid st_coordinates st_union st_as_sf st_transform st_crs
 #' @importFrom ggfx with_shadow
 #'
 #' @examples
@@ -29,13 +29,11 @@
 #'
 worldplotCat <- function(data,
                          ColName, CountryName, CountryNameType,
-                         longitude = c(-180, 180) ,latitude = c(-90, 90),
+                         longitude = c(-180, 180) ,latitude = c(-90, 90), crs = 4326,
                          title = "", legendTitle = as.character(ColName),
                          Categories = levels(factor(map_df$MapFiller)),
                          na.as.category = TRUE,
-                         annote = FALSE, div = 1, palette_option = "D",
-                         save = FALSE, filename = "worldplot.jpg", path = tempdir(),
-                         width = 20, height = 10, units = "cm", scale = 1) {
+                         annote = FALSE, div = 1, palette_option = "D") {
 
   world <- ne_countries(scale = 50, continent = NULL, returnclass = "sf")
 
@@ -91,13 +89,41 @@ worldplotCat <- function(data,
   } else {
     wplot <- wplot +
       scale_fill_manual(values = palette_option, na.value="grey90", drop= F,
-                        labels = Categories)
+                        labels = Categories, na.translate = na.as.category)
+  }
+
+  if (crs != 4326) {
+    wplot <- wplot +
+      coord_sf(xlim= longitude, ylim= latitude, expand= FALSE, label_axes = 'SW',
+               crs = st_crs(crs))
   }
 
   if (annote == TRUE) {
 
     world_points <- geometries_data(exclude.iso.na = T,
                                     countries.list = simdata$iso_a2[!is.na(simdata$MapFiller)])
+
+    if (crs != 4326) {
+
+      d <- data.frame(iso_a2 = world_points$iso_a2,
+                      X = world_points$X,
+                      Y =world_points$Y)
+
+      d2 <- st_as_sf(d, coords=c("X","Y"), crs="EPSG:4326" )
+
+      d3 <- st_transform(d2, crs = st_crs(crs))
+
+      d4 <- data.frame(iso_a2 = d3$iso_a2,
+                       X = rep(NA, nrow(d3)),
+                       Y = rep(NA, nrow(d3)))
+
+      for (i in 1: nrow(d3)) {
+        d4[i,c("X","Y")] <- d3$geometry[[i]]
+      }
+
+      world_points <- d4
+
+    }
 
     wplot <- wplot +
       with_shadow(geom_text(data= world_points, aes(x=X, y=Y,label= iso_a2), size= 2/div, color= 'white', fontface= 'bold'),
@@ -106,14 +132,6 @@ worldplotCat <- function(data,
 
   print(wplot)
 
-  if (save == TRUE) {
-    ggplot2::ggsave(filename = filename,
-                    path = path,
-                    width = width,
-                    height = height,
-                    units = units,
-                    dpi = "retina",
-                    scale = scale)
-  }
+  return(wplot)
 
 }

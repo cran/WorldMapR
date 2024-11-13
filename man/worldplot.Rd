@@ -12,18 +12,12 @@ worldplot(
   rangeVal,
   longitude = c(-180, 180),
   latitude = c(-90, 90),
+  crs = 4326,
   title = "",
   legendTitle = as.character(ColName),
   annote = FALSE,
   div = 1,
-  palette_option = "D",
-  save = FALSE,
-  filename = "worldplot.jpg",
-  path = tempdir(),
-  width = 20,
-  height = 10,
-  units = "cm",
-  scale = 1
+  palette_option = "D"
 )
 }
 \arguments{
@@ -33,13 +27,15 @@ worldplot(
 
 \item{CountryName}{Character variable with the name of the country names column.}
 
-\item{CountryNameType}{Character variable with the coding for \code{CountryName}. One of \code{isoa2} (default), \code{isoa3}, or \code{name}.}
+\item{CountryNameType}{Character variable with the coding for \code{CountryName}. One of \code{isoa2} (default, standing for ISO 3166-1 alpha-2 code), \code{isoa3}, or \code{name}.}
 
 \item{rangeVal}{Limit values that are to be defined for the map.}
 
-\item{longitude}{Longitude limits. Default is \code{c(-180, 180)} (whole world).}
+\item{longitude}{Longitude limits. Default is \code{c(-180, 180)} (whole world with crs as EPSG::4326).}
 
-\item{latitude}{Latitude limits. Default is \code{c(-90, 90)} (whole world).}
+\item{latitude}{Latitude limits. Default is \code{c(-90, 90)} (whole world with crs as EPSG::4326).}
+
+\item{crs}{Coordinate reference system (EPSG). By default the value is 4326, which corresponds to EPSG::4326 (WGS84)}
 
 \item{title}{Title of the plot. Default is no title.}
 
@@ -50,20 +46,6 @@ worldplot(
 \item{div}{Parameter for modifying the elements dimensions in the map. Usually, it does not need to be modified. Default value is 1.}
 
 \item{palette_option}{Character string indicating the palette to be used. Available options range between "A" and "H".}
-
-\item{save}{Save the plot in a jpg file?}
-
-\item{filename}{Only if is save set to \code{TRUE}. Name of the file.}
-
-\item{path}{Only if save is set to \code{TRUE}. Path of the directory where the file is to be saved.}
-
-\item{width}{Only if save is set to \code{TRUE}. Width of the file.}
-
-\item{height}{Only if save is set to \code{TRUE}. Height of the file.}
-
-\item{units}{Only if save is set to \code{TRUE}. Units for width and height. Can be 'cm', 'mm', 'in', or 'px'.}
-
-\item{scale}{Only if save is set to \code{TRUE}. Scaling factor for adjusting image dimensions.}
 }
 \value{
 a map

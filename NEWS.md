@@ -1,3 +1,9 @@
+# WorldMapR 0.1.3
+
+* Added option to modify the coordinate reference system (crs argument)
+* Created vignette
+* Removed save functionality within the functions, as the plot object can be saved with various external methods now
+
 # WorldMapR 0.1.1
 
 * Label's position has been improved for some countries in geometries_data
