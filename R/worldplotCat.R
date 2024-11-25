@@ -10,14 +10,6 @@
 #' @return a map
 #' @export
 #'
-#' @importFrom rnaturalearth ne_countries
-#' @importFrom countrycode countrycode
-#' @importFrom dplyr "%>%" left_join select select filter mutate relocate
-#' @importFrom ggplot2 ggplot geom_sf theme labs scale_fill_viridis_d coord_sf xlab ylab ggtitle
-#'                     aes unit element_text element_blank element_rect geom_text scale_fill_manual
-#' @importFrom sf st_centroid st_coordinates st_union st_as_sf st_transform st_crs
-#' @importFrom ggfx with_shadow
-#'
 #' @examples
 #' data(testdata1b)
 #' worldplotCat(data = testdata1b,
@@ -28,12 +20,13 @@
 #'              annote = FALSE)
 #'
 worldplotCat <- function(data,
-                         ColName, CountryName, CountryNameType,
+                         ColName, CountryName, CountryNameType = "isoa2",
                          longitude = c(-180, 180) ,latitude = c(-90, 90), crs = 4326,
                          title = "", legendTitle = as.character(ColName),
                          Categories = levels(factor(map_df$MapFiller)),
                          na.as.category = TRUE,
-                         annote = FALSE, div = 1, palette_option = "D") {
+                         annote = FALSE, div = 1, palette_option = "D",
+                         na_colour = "grey80", transform_limits = TRUE) {
 
   world <- ne_countries(scale = 50, continent = NULL, returnclass = "sf")
 
@@ -84,15 +77,27 @@ worldplotCat <- function(data,
 
   if (length(palette_option) == 1) {
     wplot <- wplot +
-      scale_fill_viridis_d(option = palette_option, begin= 0.3, na.value = 'grey80', direction= 1,
+      scale_fill_viridis_d(option = palette_option, begin= 0.3, na.value = na_colour, direction= 1,
                          labels= c(Categories, "NA"), na.translate = na.as.category)
   } else {
     wplot <- wplot +
-      scale_fill_manual(values = palette_option, na.value="grey90", drop= F,
+      scale_fill_manual(values = palette_option, na.value= na_colour, drop= F,
                         labels = Categories, na.translate = na.as.category)
   }
 
   if (crs != 4326) {
+    
+    if (transform_limits == TRUE) {
+      #Correct longitude and latitude values
+      lim1 <- data.frame(X = longitude, Y = latitude)
+      lim2 <- st_as_sf(lim1, coords=c("X","Y"), crs="EPSG:4326" )
+      lim3 <- st_transform(lim2, crs = st_crs(crs))
+      
+      longitude <- c(st_bbox(lim3)$xmin, st_bbox(lim3)$xmax)
+      latitude <-  c(st_bbox(lim3)$ymin, st_bbox(lim3)$ymax)
+      ##
+    }
+    
     wplot <- wplot +
       coord_sf(xlim= longitude, ylim= latitude, expand= FALSE, label_axes = 'SW',
                crs = st_crs(crs))
@@ -129,8 +134,6 @@ worldplotCat <- function(data,
       with_shadow(geom_text(data= world_points, aes(x=X, y=Y,label= iso_a2), size= 2/div, color= 'white', fontface= 'bold'),
                   x_offset = 2, y_offset = 2, sigma = 1)
   }
-
-  print(wplot)
 
   return(wplot)
 

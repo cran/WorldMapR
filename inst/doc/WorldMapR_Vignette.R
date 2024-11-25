@@ -35,14 +35,14 @@ worldplot(data = testdata1,
           ColName = "IntVal",
           CountryName = "countrycode",
           rangeVal = c(0,100),
-          latitude = c(-40,40), longitude = c(-17,50))
+          latitude = c(-40,40), longitude = c(-17,53))
 
 ## ----fig.width=7, fig.height=5, fig.retina=3----------------------------------
 worldplot(data = testdata1,
           ColName = "IntVal",
           CountryName = "countrycode",
           rangeVal = c(0,100),
-          latitude = c(-40,40), longitude = c(-17,50),
+          latitude = c(-40,40), longitude = c(-17,53),
           annote = TRUE)
 
 ## ----fig.width=7, fig.height=5, fig.retina=3----------------------------------
@@ -50,16 +50,23 @@ worldplot(data = testdata1,
           ColName = "IntVal",
           CountryName = "countrycode",
           rangeVal = c(0,100),
-          latitude = c(-40,40), longitude = c(-17,50),
+          latitude = c(-40,40), longitude = c(-17,53),
           annote = TRUE,
           palette_option = "A")
 
 ## ----fig.width=7, fig.height=5, fig.retina=3----------------------------------
+worldplot(data = testdata1,
+          ColName = "IntVal",
+          CountryName = "countrycode",
+          rangeVal = c(0,100),
+          latitude = c(-40,40), longitude = c(-17,53),
+          annote = TRUE,
+          palette_option = c("#00A600", "#63C600", "#E6E600", "#E9BD3A", "#ECB176", "#EFC2B3"))
+
+## ----fig.width=7, fig.height=5, fig.retina=3----------------------------------
 worldplotCat(data = testdata1b,
              ColName = "VCat",
-             CountryName = "Cshort",
-             CountryNameType = "isoa2",
-             annote = FALSE)
+             CountryName = "Cshort")
 
 ## ----fig.width=7, fig.height=5, fig.retina=3----------------------------------
 
@@ -75,17 +82,26 @@ worldplotCat(data = testdata1c,
              latitude = c(30,72), longitude = c(-15,40),
              annote = TRUE)
 
-## ----fig.width=7, fig.height=5, fig.retina=3, eval=F--------------------------
-#  worldplotCat(data = testdata1c,
-#               ColName = "ValCat",
-#               CountryName = "iso_a2",
-#               CountryNameType = "isoa2",
-#               palette_option = c("#C3E2EA", "#58C0D0", "#256C91"),
-#               Categories = c("Low", "Average", "High"),
-#               legendTitle = "CAT",
-#               latitude = c(5450000, 1000000), longitude = c(2500000, 6900000),
-#               crs = 3035, annote = TRUE,
-#               na.as.category = F)
+## ----fig.width=7, fig.height=5, fig.retina=3, eval=TRUE-----------------------
+worldplotCat(data = testdata1c,
+             ColName = "ValCat",
+             CountryName = "iso_a2",
+             CountryNameType = "isoa2",
+             palette_option = c("#C3E2EA", "#58C0D0", "#256C91"),
+             Categories = c("Low", "Average", "High"),
+             legendTitle = "CAT",
+             annote = TRUE,  na.as.category = F,
+             crs = 3035,
+             latitude = c(30, 66), longitude = c(-15, 55),
+             transform_limits = TRUE)
+
+## ---- fig.width=7, fig.height=5, fig.retina=3---------------------------------
+worldplot(data = testdata1,
+          ColName = "IntVal",
+          CountryName = "countrycode",
+          rangeVal = c(0,100),
+          crs = 3857,
+          longitude = c(-180, 180), latitude = c(-85, 85))
 
 ## ---- eval=FALSE--------------------------------------------------------------
 #  figure1 <- worldplot(data = testdata1,
