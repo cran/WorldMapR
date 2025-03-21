@@ -23,7 +23,9 @@ worldplotCat(
   div = 1,
   palette_option = "D",
   na_colour = "grey80",
-  transform_limits = TRUE
+  transform_limits = TRUE,
+  shadows = TRUE,
+  UK_as_GB = TRUE
 )
 }
 \arguments{
@@ -66,6 +68,12 @@ worldplotCat(
 \item{transform_limits}{Only if crs is specified and different from 4326. If TRUE (the default) the program expects to receive values of longitude and latitude as in EPSG 4326,
 (i.e., within -180, +180 for longitude and within -90, +90 for latitude) and automatically updates to the new crs.
 Set to FALSE if you want to define longitude and latitude limits based on the new crs}
+
+\item{shadows}{If TRUE, add shadows to the country labels (only if annote = TRUE)}
+
+\item{UK_as_GB}{Argument passed to countrycoord_data if annote is set to TRUE.
+Do you want to translate the GB isoa2 code to UK? If FALSE, GB is returned in the output data.frame. 
+If TRUE (default), UK is returned.}
 }
 \value{
 a map

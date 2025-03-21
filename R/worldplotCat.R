@@ -26,21 +26,8 @@ worldplotCat <- function(data,
                          Categories = levels(factor(map_df$MapFiller)),
                          na.as.category = TRUE, label.color = "white", label.size = 2,
                          annote = FALSE, div = 1, palette_option = "D", 
-                         na_colour = "grey80", transform_limits = TRUE) {
+                         na_colour = "grey80", transform_limits = TRUE, shadows = TRUE, UK_as_GB = TRUE) {
 
-  world <- ne_countries(scale = 50, continent = NULL, returnclass = "sf")
-
-  map_df0<- world %>%
-    select(name, iso_a2_eh, iso_a3_eh, geometry) %>%
-    mutate(iso_a2 = ifelse(name %in% c("Indian Ocean Ter." , "Ashmore and Cartier Is."), -99, iso_a2_eh),
-           iso_a3 = ifelse(name %in% c("Indian Ocean Ter." , "Ashmore and Cartier Is."), -99, iso_a3_eh)) %>%
-    select(name, iso_a2, iso_a3, geometry)
-
-  #Cyprus adjustment
-  cyp <- subset(map_df0, name %in% c("Cyprus", "N. Cyprus"))
-  cyp2 <- st_union(cyp[1, "geometry"], cyp[2,"geometry"])
-  map_df0[map_df0$iso_a2 == "CY", "geometry"] <- cyp2
-  # end of cyprus adjustment
 
   simdata <- c()
 
@@ -59,6 +46,8 @@ worldplotCat <- function(data,
   }
 
   simdata <- as.data.frame(simdata)
+  
+  simdata$iso_a2 <- replace(simdata$iso_a2, simdata$iso_a2 == "UK", "GB")
 
   map_df <- left_join(map_df0, simdata, by = "iso_a2")
   
@@ -103,11 +92,18 @@ worldplotCat <- function(data,
   if (annote == TRUE) {
 
     world_points <- countrycoord_data(countries.list = simdata$iso_a2[!is.na(simdata$MapFiller)],
-                                      crs = crs, UK_as_GB = TRUE, exclude.iso.na = TRUE)
-
-    wplot <- wplot +
+                                      crs = crs, UK_as_GB = UK_as_GB, exclude.iso.na = TRUE)
+    
+    if (shadows == TRUE) {
+      
+       wplot <- wplot +
       with_shadow(geom_text(data= world_points, aes(x=X, y=Y,label= iso_a2), size= label.size/div, color= label.color, fontface= 'bold'),
                   x_offset = 2, y_offset = 2, sigma = 1)
+    } else {
+      
+      wplot <- wplot +
+        geom_text(data= world_points, aes(x=X, y=Y,label= iso_a2), size= label.size/div, color= label.color, fontface= 'bold')
+    }
   }
 
   return(wplot)

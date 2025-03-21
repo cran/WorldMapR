@@ -22,6 +22,10 @@
 #' @param transform_limits Only if crs is specified and different from 4326. If TRUE (the default) the program expects to receive values of longitude and latitude as in EPSG 4326,
 #'                          (i.e., within -180, +180 for longitude and within -90, +90 for latitude) and automatically updates to the new crs.
 #'                          Set to FALSE if you want to define longitude and latitude limits based on the new crs
+#' @param shadows If TRUE, add shadows to the country labels (only if annote = TRUE)
+#' @param UK_as_GB Argument passed to countrycoord_data if annote is set to TRUE.
+#'                 Do you want to translate the GB isoa2 code to UK? If FALSE, GB is returned in the output data.frame. 
+#'                 If TRUE (default), UK is returned.
 #'
 #' @return a map
 #' @export
@@ -41,21 +45,8 @@ worldplot <- function(data,
                       longitude = c(-180, 180) ,latitude = c(-90, 90), crs = 4326,
                       title = "", legendTitle = as.character(ColName), legend.position = "right",
                       annote = FALSE, div = 1, palette_option = "D", label.color = "white", label.size = 2,
-                      na_colour = "grey80", transform_limits = TRUE) {
+                      na_colour = "grey80", transform_limits = TRUE, shadows = TRUE, UK_as_GB = TRUE) {
 
-  world <- ne_countries(scale = 50, continent = NULL, returnclass = "sf")
-
-  map_df0<- world %>%
-    select(name, iso_a2_eh, iso_a3_eh, geometry) %>%
-    mutate(iso_a2 = ifelse(name %in% c("Indian Ocean Ter." , "Ashmore and Cartier Is."), -99, iso_a2_eh),
-           iso_a3 = ifelse(name %in% c("Indian Ocean Ter." , "Ashmore and Cartier Is."), -99, iso_a3_eh)) %>%
-    select(name, iso_a2, iso_a3, geometry)
-
-  #Cyprus adjustment
-  cyp <- subset(map_df0, name %in% c("Cyprus", "N. Cyprus"))
-  cyp2 <- st_union(cyp[1, "geometry"], cyp[2,"geometry"])
-  map_df0[map_df0$iso_a2 == "CY", "geometry"] <- cyp2
-  # end of cyprus adjustment
 
   simdata <- c()
 
@@ -74,6 +65,8 @@ worldplot <- function(data,
   }
 
   simdata <- as.data.frame(simdata)
+  
+  simdata$iso_a2 <- replace(simdata$iso_a2, simdata$iso_a2 == "UK", "GB")
 
   map_df <- left_join(map_df0, simdata, by = "iso_a2")
   
@@ -122,12 +115,22 @@ worldplot <- function(data,
   if (annote == TRUE) {
 
     world_points <- countrycoord_data(countries.list = simdata$iso_a2[!is.na(simdata$MapFiller)],
-                                      crs = crs, UK_as_GB = TRUE, exclude.iso.na = TRUE)
+                                      crs = crs, UK_as_GB = UK_as_GB, exclude.iso.na = TRUE)
+    
+    if (shadows == TRUE) {
+      wplot <- wplot +
+        with_shadow(geom_text(data= world_points, aes(x=X, y=Y,label= iso_a2), size= label.size/div, 
+                              color= label.color, fontface= 'bold'),
+                    x_offset = 2, y_offset = 2, sigma = 1)
+      
+    } else {
+      
+      wplot <- wplot +
+       geom_text(data= world_points, aes(x=X, y=Y,label= iso_a2), size= label.size/div, 
+                              color= label.color, fontface= 'bold')
+    }
 
-    wplot <- wplot +
-      with_shadow(geom_text(data= world_points, aes(x=X, y=Y,label= iso_a2), size= label.size/div, 
-                            color= label.color, fontface= 'bold'),
-                  x_offset = 2, y_offset = 2, sigma = 1)
+
   }
 
   return(wplot)

@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -17,18 +17,18 @@ dim(testdata1b)
 head(testdata1c)
 dim(testdata1c)
 
-## ---- fig.width=7, fig.height=5, fig.retina=3---------------------------------
+## ----fig.width=7, fig.height=5, fig.retina=3----------------------------------
 worldplot(data = testdata1,
           ColName = "IntVal",
           CountryName = "countrycode",
           rangeVal = c(0,100))
 
-## ---- eval=FALSE--------------------------------------------------------------
-#  worldplot(data = testdata1,
-#            ColName = "IntVal",
-#            CountryName = "name",
-#            CountryNameType = "name",
-#            rangeVal = c(0,100))
+## ----eval=FALSE---------------------------------------------------------------
+# worldplot(data = testdata1,
+#           ColName = "IntVal",
+#           CountryName = "name",
+#           CountryNameType = "name",
+#           rangeVal = c(0,100))
 
 ## ----fig.width=7, fig.height=5, fig.retina=3----------------------------------
 worldplot(data = testdata1,
@@ -69,17 +69,14 @@ worldplotCat(data = testdata1b,
              CountryName = "Cshort")
 
 ## ----fig.width=7, fig.height=5, fig.retina=3----------------------------------
-
-colours <- c("#C3E2EA", "#58C0D0", "#256C91")
-
 worldplotCat(data = testdata1c,
              ColName = "ValCat",
              CountryName = "iso_a2",
              CountryNameType = "isoa2",
-             palette_option = colours ,
+             palette_option = c("#C3E2EA", "#58C0D0", "#256C91"),
              Categories = c("Low", "Average", "High"),
              legendTitle = "CAT",
-             latitude = c(30,72), longitude = c(-15,40),
+             latitude = c(30,72), longitude = c(-15,42),
              annote = TRUE)
 
 ## ----fig.width=7, fig.height=5, fig.retina=3, eval=TRUE-----------------------
@@ -92,10 +89,10 @@ worldplotCat(data = testdata1c,
              legendTitle = "CAT",
              annote = TRUE,  na.as.category = F,
              crs = 3035,
-             latitude = c(30, 66), longitude = c(-15, 55),
+             latitude = c(30, 66), longitude = c(-13, 55.5),
              transform_limits = TRUE)
 
-## ---- fig.width=7, fig.height=5, fig.retina=3---------------------------------
+## ----fig.width=7, fig.height=5, fig.retina=3----------------------------------
 worldplot(data = testdata1,
           ColName = "IntVal",
           CountryName = "countrycode",
@@ -103,17 +100,17 @@ worldplot(data = testdata1,
           crs = 3857,
           longitude = c(-180, 180), latitude = c(-85, 85))
 
-## ---- eval=FALSE--------------------------------------------------------------
-#  figure1 <- worldplot(data = testdata1,
-#                       ColName = "IntVal",
-#                       CountryName = "name",
-#                       CountryNameType = "name",
-#                       rangeVal = c(0,100))
-#  
-#  tiff(filename =  paste(tempdir(), "\\figure.tiff"))
-#  
-#  figure1
-#  
-#  dev.off()
-#  
+## ----eval=FALSE---------------------------------------------------------------
+# figure1 <- worldplot(data = testdata1,
+#                      ColName = "IntVal",
+#                      CountryName = "name",
+#                      CountryNameType = "name",
+#                      rangeVal = c(0,100))
+# 
+# tiff(filename =  paste(tempdir(), "/figure.tiff"))
+# 
+# figure1
+# 
+# dev.off()
+# 
 

@@ -28,7 +28,8 @@ worldplotCat(data = testdata1b,
              palette_option = c("#C3E2EA", "#58C0D0", "#256C91"),
              Categories = c("Low", "Average", "High"),
              legendTitle = "CAT",
-             annote = TRUE)
+             annote = TRUE,
+             na.as.category = F)
 
 worldplotCat(data = testdata1c,
              ColName = "ValCat",
@@ -60,7 +61,8 @@ worldplotCat(data = testdata1c,
              Categories = c("Low", "Average", "High"),
              legendTitle = "CAT",
              latitude = c(30,62), longitude = c(-7, 70),
-             crs = 3035, annote = TRUE, transform_limits = T)
+             crs = 3035, annote = TRUE, transform_limits = T,
+             UK_as_GB = F)
 
 
 worldplotCat(data = testdata1c,
@@ -71,4 +73,4 @@ worldplotCat(data = testdata1c,
              Categories = c("Low", "Average", "High"),
              legendTitle = "CAT",
              latitude = c(30,82), longitude = c(-20, 70),
-             annote = TRUE)
+             annote = TRUE, UK_as_GB = T)
