@@ -114,3 +114,10 @@ worldplot(data = testdata1,
 # dev.off()
 # 
 
+## ----eval=FALSE---------------------------------------------------------------
+# # create the map
+# empty_editable_map(lon = c(-15, 40), lat = c(20, 65), crs = 4326)
+# 
+# # save it
+# export::graph2ppt(file ="editable_map15.pptx", width = 7, height = 4)
+

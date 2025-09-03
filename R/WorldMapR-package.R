@@ -3,13 +3,6 @@
 
 ## usethis namespace: start
 #' @importFrom countrycode countrycode
-#' @importFrom dplyr %>%
-#' @importFrom dplyr arrange
-#' @importFrom dplyr filter
-#' @importFrom dplyr left_join
-#' @importFrom dplyr mutate
-#' @importFrom dplyr relocate
-#' @importFrom dplyr select
 #' @importFrom ggfx with_shadow
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 coord_sf
@@ -36,6 +29,13 @@
 #' @importFrom sf st_crs
 #' @importFrom sf st_transform
 #' @importFrom sf st_union
+#' 
+#' @importFrom sf sf_use_s2
+#' @importFrom sf st_as_sfc
+#' @importFrom sf st_crop
+#' @importFrom sf st_geometry
+#' @importFrom sf st_intersects
+#' 
 #' @importFrom utils globalVariables
 ## usethis namespace: end
 NULL
